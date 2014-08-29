@@ -3,7 +3,7 @@
 Plugin Name: Hide Reviews for WooCommerce
 Plugin URI: http://sfndesign.ca/
 Description: Hides all reviews in WooCommerce if you choose not to use the stars as ratings
-Version: 1.0
+Version: 1.0.1
 Author: SFNdesign, Curtis McHale
 Author URI: http://sfndesign.ca
 License: GPLv2 or later
