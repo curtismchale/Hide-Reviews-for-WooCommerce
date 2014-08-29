@@ -6,7 +6,7 @@ It removes:
 
 - Reviews Tabs
 - Ratings Widgets are deactivated no one can add them to a sidebar
-	- if the ratings widgets are in a sidebare they will disappear
+	- if the ratings widgets are in a sidebar they will disappear
 
 ### Support
 
