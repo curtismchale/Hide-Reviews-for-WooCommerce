@@ -55,9 +55,9 @@ class SFN_HR_License{
 		$old = isset( $old['sfn_hr_license'] ) ? $old['sfn_hr_license'] : '';
 
 		if( $old && $old != $new ) {
-			$status = get_option( 'sfn_license_status' );
+			$status = get_option( 'sfn_hr_license_status' );
 			$status = null;
-			update_option( $status ); // new license has been entered, so must reactivate
+			update_option( 'sfn_hr_license_status', $status ); // new license has been entered, so must reactivate
 		}
 
 		return $new;
