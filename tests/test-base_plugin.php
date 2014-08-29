@@ -61,5 +61,9 @@ class TestBasePlugin extends WP_UnitTestCase {
 		delete_option( 'woocommerce_enable_review_rating' );
 	}
 
+	function tearDown(){
+		parent::tearDown();
+	}
+
 }
 
