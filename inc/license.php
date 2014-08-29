@@ -86,7 +86,7 @@ class SFN_HR_License{
 			<tbody>
 				<tr valign="top">
 					<th scope="row" valign="top">
-						<?php _e('Easy Content Restriction License Key'); ?>
+						<?php _e('Hide Reviews for WooCommerce'); ?>
 					</th>
 					<td>
 						<input id="sfn_license[sfn_hr_license]" name="sfn_license[sfn_hr_license]" type="text" class="regular-text" value="<?php esc_attr_e( $license ); ?>" />
