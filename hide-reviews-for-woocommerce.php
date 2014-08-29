@@ -105,4 +105,4 @@ class Hide_Reviews_For_Woocommerce{
 
 } // Hide_Reviews_For_Woocommerce
 
-new Hide_Reviews_For_Woocommerce();
+$GLOBALS['hiderevwc'] = new Hide_Reviews_For_Woocommerce();
