@@ -1,8 +1,8 @@
 <?php
-class WECR_License{
+class SFN_HR_License{
 
 	function __construct(){
-		add_action('admin_menu', array( $this, 'wecr_license_page' ) );
+		add_action('admin_menu', array( $this, 'sfn_hr_license_page' ) );
 		add_action('admin_init', array( $this, 'register_wecr_option' ) );
 		add_action( 'sfn_add_license_field', array( $this, 'add_plugin_license' ), 10, 2 );
 
@@ -21,7 +21,7 @@ class WECR_License{
 	 *
 	 * @uses add_submenu_page()                 Adds a submenu to a WordPress admin menu
 	 */
-	public function wecr_license_page() {
+	public function sfn_hr_license_page() {
 		add_submenu_page( 'woocommerce', 'SFN License', 'SFN License', 'manage_options', 'sfn-license', 'sfn_license_page' );
 	}
 
@@ -52,7 +52,7 @@ class WECR_License{
 	public function sanitize_license( $new ) {
 
 		$old = get_option( 'sfn_license' );
-		$old = isset( $old['wecr_license'] ) ? $old['wecr_license'] : '';
+		$old = isset( $old['sfn_hr_license'] ) ? $old['sfn_hr_license'] : '';
 
 		if( $old && $old != $new ) {
 			$status = get_option( 'sfn_license_status' );
@@ -77,8 +77,8 @@ class WECR_License{
 	 */
 	public function add_plugin_license( $license ){
 
-		$license = isset( $license['wecr_license'] ) ? $license['wecr_license'] : false;
-		$status = get_option( 'sfn_wecr_license_status' );
+		$license = isset( $license['sfn_hr_license'] ) ? $license['sfn_hr_license'] : false;
+		$status = get_option( 'sfn_hr_license_status' );
 
 	?>
 
@@ -89,8 +89,8 @@ class WECR_License{
 						<?php _e('Easy Content Restriction License Key'); ?>
 					</th>
 					<td>
-						<input id="sfn_license[wecr_license]" name="sfn_license[wecr_license]" type="text" class="regular-text" value="<?php esc_attr_e( $license ); ?>" />
-						<label class="description" for="sfn_license[wecr_license]"><?php _e('Enter your license key'); ?></label>
+						<input id="sfn_license[sfn_hr_license]" name="sfn_license[sfn_hr_license]" type="text" class="regular-text" value="<?php esc_attr_e( $license ); ?>" />
+						<label class="description" for="sfn_license[sfn_hr_license]"><?php _e('Enter your license key'); ?></label>
 					</td>
 				</tr>
 				<?php if ( false !== $license ) { ?>
@@ -143,7 +143,7 @@ class WECR_License{
 
 			// retrieve the license from the database
 			$license = get_option( 'sfn_license' );
-			$license = trim($license['wecr_license'] );
+			$license = trim($license['sfn_hr_license'] );
 
 			// data to send in our API request
 			$api_params = array(
@@ -165,7 +165,7 @@ class WECR_License{
 
 			// $license_data->license will be either "deactivated" or "failed"
 			if( $license_data->license == 'deactivated' )
-				delete_option( 'sfn_wecr_license_status' );
+				delete_option( 'sfn_sfn_hr_license_status' );
 
 		}
 	}
@@ -192,19 +192,19 @@ class WECR_License{
 		if ( isset( $_POST['edd_license_activate'] ) ) {
 
 			// run a quick security check
-			if ( ! check_admin_referer( 'wecr_activate_status_nonce', 'wecr_activate_status_nonce' ) ){
+			if ( ! check_admin_referer( 'sfn_hr_activate_status_nonce', 'sfn_hr_activate_status_nonce' ) ){
 				return; // get out if we didn't click the Activate button
 			}
 
 			// retrieve the license from the database
 			$license = get_option( 'sfn_license' );
-			$license = trim( $license['wecr_license'] );
+			$license = trim( $license['sfn_hr_license'] );
 
 			// data to send in our API request
 			$api_params = array(
 				'edd_action' => 'activate_license',
 				'license'    => $license,
-				'item_name'  => urlencode( WECR_PLUGIN_NAME ), // the name of our product in EDD
+				'item_name'  => urlencode( SFN_HR_PLUGIN_NAME ), // the name of our product in EDD
 				'url'        => home_url()
 			);
 
@@ -222,14 +222,14 @@ class WECR_License{
 
 			// $license_data->license will be either "valid" or "invalid"
 
-			update_option( 'sfn_wecr_license_status', $license_data->license );
+			update_option( 'sfn_hr_license_status', $license_data->license );
 
 		}
 	} // if $_POST
 
 } // WECR_License
 
-new WECR_license();
+new SFN_HR_license();
 
 if ( ! function_exists( 'sfn_license_page' ) ){
 

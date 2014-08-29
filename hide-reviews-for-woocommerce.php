@@ -25,6 +25,18 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+
+require_once( 'inc/license.php' );
+
+set_site_transient( 'update_plugins', null );
+// this is the URL our updater / license checker pings. This should be the URL of the site with EDD installed
+if ( ! defined( 'SFN_STORE_URL' ) ) {
+	define( 'SFN_STORE_URL', 'http://sfndesign.ca' );
+}
+
+// the name of your product. This should match the download name in EDD exactly
+define( 'SFN_HR_PLUGIN_NAME', 'Hide Reviews for WooCommerce' ); // you should use your own CONSTANT name, and be sure to replace it throughout this file
+
 class Hide_Reviews_For_Woocommerce{
 
 	function __construct(){
@@ -33,6 +45,8 @@ class Hide_Reviews_For_Woocommerce{
 		add_filter( 'woocommerce_product_tabs', array( $this, 'kill_wc_reviews_tab' ), 98 );
 
 		add_action( 'admin_notices', array( $this, 'check_required_plugins' ) );
+
+		add_action( 'admin_init', array( $this, 'plugin_updater' ) );
 
 	} // construct
 
@@ -102,6 +116,32 @@ class Hide_Reviews_For_Woocommerce{
 		} // if woocommerce
 
 	} // check_required_plugins
+
+	/**
+	 * Checks for plugin updates based on the license key being valid
+	 *
+	 * @since 1.0
+	 * @author SFNdesign, Curtis McHale
+	 *
+	 * @uses get_option()                   Gets given option from the WP DB
+	 * @class EDD_Sl_Plugin_Updater()       EDD Plugin updater class
+	 */
+	public function plugin_updater() {
+
+		// retrieve our license key from the DB
+		$license_key = get_option( 'sfn_license' );
+		$license_key = isset( $license_key['sfn_hr_license'] ) ? trim( $license_key['sfn_hr_license'] ) : null;
+
+		// setup the updater
+		$edd_updater = new EDD_SL_Plugin_Updater( SFN_STORE_URL, __FILE__, array(
+				'version'   => '1.0.1',                     // current version number
+				'license'   => $license_key,                // license key (used get_option above to retrieve from DB)
+				'item_name' => SFN_HR_PLUGIN_NAME,            // name of this plugin
+				'author'    => 'SFNdesign, Curtis McHale',  // author of this plugin
+			)
+		);
+
+	} // plugin_updater
 
 } // Hide_Reviews_For_Woocommerce
 
